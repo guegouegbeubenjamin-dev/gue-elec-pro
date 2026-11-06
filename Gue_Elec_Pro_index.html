@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111f"><title>Gue Élec Pro — Future V2</title>
+<style>
+:root{--bg:#07111f;--panel:#102238;--line:#29445f;--cyan:#54e5e8;--blue:#649cff;--txt:#eff8ff;--muted:#9ab0c5}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#173c5b,transparent 35%),var(--bg);color:var(--txt);font:15px system-ui,Arial}
+header{position:sticky;top:0;background:#07111fee;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px;z-index:3}
+.top{max-width:950px;margin:auto;display:flex;justify-content:space-between;align-items:center}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#061321;font-size:26px;font-weight:900;box-shadow:0 0 25px #54e5e855}.brand h1{font-size:16px;margin:0}.brand small,.muted{color:var(--muted);font-size:12px}.status{color:var(--cyan);font-size:11px;border:1px solid #28536a;padding:7px 10px;border-radius:30px}
+main{max-width:950px;margin:auto;padding:18px 14px 90px}.view{display:none}.view.active{display:block}.hero{border:1px solid #2b5872;border-radius:22px;padding:22px;background:linear-gradient(120deg,#12364e,#14253b);position:relative;overflow:hidden}.hero:after{content:'⚡';position:absolute;right:14px;top:-22px;font-size:130px;color:#54e5e811}.eyebrow{color:var(--cyan);font-size:10px;letter-spacing:2px}.hero h2{font-size:clamp(24px,5vw,34px);margin:8px 0}.hero p{color:#c1d5e7;max-width:570px;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.panel{background:linear-gradient(145deg,#122940,#0d1c2e);border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0}.stat small{color:var(--muted)}.stat strong{display:block;font-size:24px;margin:7px 0}.section{display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px}.section h3{margin:0;font-size:16px}.section span{font-size:10px;color:var(--muted);letter-spacing:1px}
+.tile{background:#10263c;border:1px solid #2b4964;border-radius:15px;padding:14px 10px;text-align:left;color:var(--txt);cursor:pointer}.tile b{display:block;font-size:22px;margin-bottom:7px}.tile span{font-size:12px;font-weight:bold}.tile small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+button{background:#173650;border:1px solid #355773;color:var(--txt);padding:11px 14px;border-radius:10px;font-weight:700;cursor:pointer}.primary{background:linear-gradient(120deg,var(--cyan),var(--blue));color:#071522;border:0}input,select,textarea{width:100%;background:#081827;color:var(--txt);border:1px solid #2b4964;border-radius:9px;padding:12px;margin:6px 0 13px;font:inherit}label{font-size:12px;color:#bed1e2;font-weight:700}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{padding:12px 0;border-bottom:1px solid #294157}.item:last-child{border:0}.item strong{display:block}.item small{color:var(--muted)}.empty{padding:18px;text-align:center;color:var(--muted)}.result{background:#0b2d3b;border:1px solid #2e6878;padding:13px;border-radius:11px;margin-top:10px;line-height:1.6}pre{white-space:pre-wrap;background:#06111e;border:1px solid #29445f;border-radius:10px;padding:13px;color:#aaf3eb}
+nav{position:fixed;bottom:0;left:0;right:0;background:#081525f2;backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 2px calc(6px + env(safe-area-inset-bottom));z-index:4}nav button{flex:1;max-width:160px;border:0;background:transparent;color:#91a8bf;font-size:10px;padding:8px 2px}nav button b{display:block;font-size:18px}nav button.active{color:var(--cyan);background:#16334a;border-radius:10px}
+@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:1fr}.hero{padding:18px}}
+
+.symbol-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.symbol-card{background:#0a1b2b;border:1px solid #29445f;border-radius:12px;padding:10px;display:flex;gap:10px;align-items:center;min-height:72px}
+.symbol-card svg{width:48px;height:42px;flex:none;stroke:var(--symbol-color,#bcecf4);fill:none;stroke-width:2}
+.symbol-card{border-color:color-mix(in srgb,var(--symbol-color) 38%,#29445f);background:linear-gradient(110deg,color-mix(in srgb,var(--symbol-color) 10%,#0a1b2b),#0a1b2b)}
+.symbol-card:nth-child(1){--symbol-color:#f5c542}.symbol-card:nth-child(2){--symbol-color:#2878d0}.symbol-card:nth-child(3),.symbol-card:nth-child(4){--symbol-color:#e87524}.symbol-card:nth-child(5),.symbol-card:nth-child(6){--symbol-color:#9b59b6}.symbol-card:nth-child(7){--symbol-color:#16a36a}.symbol-card:nth-child(8),.symbol-card:nth-child(9),.symbol-card:nth-child(10){--symbol-color:#d94a4a}
+.color-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.color-legend span{font-size:10px;border:1px solid #35516a;border-radius:20px;padding:6px 9px;color:#eaf5ff}.color-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.symbol-card b{display:block;font-size:12px}.symbol-card small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.diagram{background:#f7fbff;border-radius:12px;padding:10px;overflow-x:auto;margin:10px 0}
+.diagram svg{display:block;min-width:560px;width:100%;height:auto}
+.diagram-note{color:var(--muted);font-size:11px;line-height:1.5}
+@media(max-width:650px){.symbol-grid{grid-template-columns:1fr}}
+</style>
+<meta name="theme-color" content="#071a33">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+</head><body>
+<header><div class="top"><div class="brand"><div class="logo">ϟ</div><div><h1>GUE ÉLEC PRO</h1><small>FUTURE EDITION · BUREAU DIGITAL</small></div></div><div class="status">● MODE LOCAL</div></div></header>
+<main>
+<section id="home" class="view active">
+<div class="hero"><div class="eyebrow">CENTRE DE COMMANDE</div><h2>Votre activité.<br>Un seul espace.</h2><p>Une interface moderne pour piloter les clients, les chantiers, les devis et les outils électriques.</p></div>
+<div class="grid"><div class="panel stat"><small>CLIENTS</small><strong id="sC">0</strong></div><div class="panel stat"><small>CHANTIERS</small><strong id="sP">0</strong></div><div class="panel stat"><small>DEVIS</small><strong id="sQ">0</strong></div><div class="panel stat"><small>À RECEVOIR</small><strong id="sD">0 F</strong></div></div>
+<div class="section"><h3>Accès rapide</h3><span>GESTION</span></div><div class="grid">
+<button class="tile" onclick="go('clients')"><b>♙</b><span>Clients</span><small>Contacts & fiches</small></button><button class="tile" onclick="go('projects')"><b>▦</b><span>Chantiers</span><small>Suivi des travaux</small></button><button class="tile" onclick="go('quotes')"><b>▤</b><span>Devis & paiements</span><small>Suivi financier</small></button><button class="tile" onclick="go('calc')"><b>ϟ</b><span>Calcul électrique</span><small>Outils de calcul</small></button></div>
+<div class="section"><h3>Centre technique</h3><span>ÉLECTROTECHNIQUE</span></div><div class="grid">
+<button class="tile" onclick="go('study')"><b>⌁</b><span>Étude électrique</span><small>Pré-dimensionnement</small></button><button class="tile" onclick="go('schemes')"><b>⌗</b><span>Schémas</span><small>Modèles indicatifs</small></button><button class="tile" onclick="go('stock')"><b>▧</b><span>Stock matériel</span><small>Inventaire</small></button><button class="tile" onclick="go('reports')"><b>▣</b><span>Rapports</span><small>Documents chantier</small></button></div>
+</section>
+<section id="clients" class="view"><div class="section"><h3>♙ Clients</h3><span>RÉPERTOIRE</span></div><div class="panel"><label>Nom</label><input id="cn" placeholder="Nom du client"><label>Téléphone</label><input id="cp" placeholder="Contact"><label>Adresse</label><input id="ca" placeholder="Ville / quartier"><button class="primary" onclick="add('clients')">Enregistrer</button></div><div class="panel" id="clientList"></div></section>
+<section id="projects" class="view"><div class="section"><h3>▦ Chantiers</h3><span>OPÉRATIONS</span></div><div class="panel"><label>Nom du chantier</label><input id="pn" placeholder="Ex. Villa — installation"><label>Client</label><input id="pc" placeholder="Nom du client"><div class="row"><div><label>Statut</label><select id="ps"><option>En préparation</option><option>En cours</option><option>Terminé</option></select></div><div><label>Budget FCFA</label><input id="pb" type="number" placeholder="0"></div></div><button class="primary" onclick="add('projects')">Enregistrer</button></div><div class="panel" id="projectList"></div></section>
+<section id="quotes" class="view"><div class="section"><h3>▤ Devis & paiements</h3><span>FINANCES</span></div><div class="panel"><label>Client</label><input id="qc" placeholder="Nom du client"><div class="row"><div><label>Montant FCFA</label><input id="qa" type="number"></div><div><label>Déjà payé FCFA</label><input id="qp" type="number"></div></div><label>Objet</label><input id="qo" placeholder="Installation électrique..."><button class="primary" onclick="add('quotes')">Enregistrer</button></div><div class="panel" id="quoteList"></div></section>
+<section id="calc" class="view">
+<div class="section"><h3>ϟ Centre de calculs électriques</h3><span>BOÎTE À OUTILS</span></div>
+<p class="muted">Calculs monophasés, triphasés, courant continu, photovoltaïque, batteries, câbles, énergie et composants. Les résultats de dimensionnement sont indicatifs : vérifier les normes, les conditions réelles et les notices fabricants avant toute installation.</p>
+<div class="panel"><h4>1. Loi d'Ohm — U, I, R, P</h4>
+<div class="row"><div><label>Tension U (V)</label><input id="ohmU" type="number" placeholder="230"></div><div><label>Courant I (A)</label><input id="ohmI" type="number" placeholder="10"></div></div>
+<div class="row"><div><label>Résistance R (Ω)</label><input id="ohmR" type="number" placeholder="23"></div><div><label>Puissance P (W)</label><input id="ohmP" type="number" placeholder="2300"></div></div>
+<button class="primary" onclick="ohmCalc()">Calculer les valeurs manquantes</button><div id="ohmResult"></div></div>
+<div class="panel"><h4>2. Courant alternatif monophasé</h4>
+<div class="row"><div><label>Tension U (V)</label><input id="mU" type="number" value="230"></div><div><label>Courant I (A)</label><input id="mI" type="number" placeholder="10"></div></div>
+<div class="row"><div><label>Facteur de puissance cos φ</label><input id="mCos" type="number" value="1" step=".01"></div><div><label>Puissance active P (W) facultative</label><input id="mP" type="number" placeholder="laisser vide si inconnue"></div></div>
+<button onclick="monoCalc()">Calculer P, S et Q</button><div id="monoResult"></div></div>
+<div class="panel"><h4>3. Courant alternatif triphasé équilibré</h4>
+<div class="row"><div><label>Tension entre phases U (V)</label><input id="tU" type="number" value="400"></div><div><label>Courant de ligne I (A)</label><input id="tI" type="number" placeholder="10"></div></div>
+<label>Facteur de puissance cos φ</label><input id="tCos" type="number" value=".9" step=".01">
+<button onclick="triCalc()">Calculer P, S et Q</button><div id="triResult"></div></div>
+<div class="panel"><h4>4. Énergie, consommation et coût</h4>
+<div class="row"><div><label>Puissance (W)</label><input id="eP" type="number" placeholder="1000"></div><div><label>Durée par jour (h)</label><input id="eH" type="number" placeholder="5"></div></div>
+<div class="row"><div><label>Nombre de jours</label><input id="eD" type="number" value="30"></div><div><label>Prix du kWh (FCFA)</label><input id="ePrice" type="number" placeholder="ex. 100"></div></div>
+<button onclick="energyFullCalc()">Calculer consommation et coût</button><div id="energyFullResult"></div></div>
+<div class="panel"><h4>5. Résistance équivalente</h4>
+<div class="row"><div><label>Résistance R1 (Ω)</label><input id="r1" type="number"></div><div><label>Résistance R2 (Ω)</label><input id="r2" type="number"></div></div>
+<button onclick="resistorCalc('series')">Association en série</button> <button onclick="resistorCalc('parallel')">En parallèle</button><div id="resistorResult"></div></div>
+<div class="panel"><h4>6. Chute de tension et section indicative</h4>
+<div class="row"><div><label>Courant I (A)</label><input id="cI" type="number" placeholder="16"></div><div><label>Longueur aller L (m)</label><input id="cL" type="number" placeholder="25"></div></div>
+<div class="row"><div><label>Section S (mm²)</label><input id="cS" type="number" placeholder="2.5"></div><div><label>Tension U (V)</label><input id="cU" type="number" value="230"></div></div>
+<div class="row"><div><label>Conducteur</label><select id="cMat"><option value="0.0175">Cuivre (ρ ≈ 0,0175 Ω·mm²/m)</option><option value="0.0285">Aluminium (ρ ≈ 0,0285 Ω·mm²/m)</option></select></div><div><label>Réseau</label><select id="cType"><option value="1">Monophasé</option><option value="3">Triphasé équilibré</option></select></div></div>
+<button onclick="cableCalc()">Calculer chute de tension</button><div id="cableResult"></div>
+<p class="muted">Formules simplifiées en régime établi, sans correction de température, réactance ni conditions de pose. La section finale doit être vérifiée selon les règles applicables.</p></div>
+<div class="panel"><h4>7. Photovoltaïque — série et parallèle</h4>
+<div class="row"><div><label>Nombre de panneaux en série</label><input id="pvSeries" type="number" value="2"></div><div><label>Nombre de branches en parallèle</label><input id="pvParallel" type="number" value="2"></div></div>
+<div class="row"><div><label>Tension Vmp d'un panneau (V)</label><input id="pvV" type="number" placeholder="40"></div><div><label>Courant Imp d'un panneau (A)</label><input id="pvA" type="number" placeholder="10"></div></div>
+<button onclick="pvCalc()">Calculer le champ PV</button><div id="pvResult"></div></div>
+<div class="panel"><h4>8. Batterie — capacité et autonomie</h4>
+<div class="row"><div><label>Tension batterie (V)</label><input id="bV" type="number" value="24"></div><div><label>Capacité (Ah)</label><input id="bAh" type="number" placeholder="200"></div></div>
+<div class="row"><div><label>Profondeur de décharge utilisable (%)</label><input id="bDod" type="number" value="80"></div><div><label>Rendement (%)</label><input id="bEff" type="number" value="90"></div></div>
+<label>Puissance moyenne des appareils (W)</label><input id="bLoad" type="number" placeholder="500">
+<button onclick="batteryCalc()">Calculer énergie utile et autonomie</button><div id="batteryResult"></div></div>
+<div class="panel"><h4>9. Onduleur — puissance indicative</h4>
+<div class="row"><div><label>Puissance simultanée des charges (W)</label><input id="invLoad" type="number" placeholder="1200"></div><div><label>Marge souhaitée (%)</label><input id="invMargin" type="number" value="25"></div></div>
+<button onclick="inverterCalc()">Estimer la puissance minimale</button><div id="inverterResult"></div></div>
+<div class="panel"><h4>10. Transformateur monophasé</h4>
+<div class="row"><div><label>Puissance apparente (VA)</label><input id="trVA" type="number" placeholder="3000"></div><div><label>Tension primaire (V)</label><input id="trU1" type="number" placeholder="230"></div></div>
+<label>Tension secondaire (V)</label><input id="trU2" type="number" placeholder="24">
+<button onclick="transformerCalc()">Calculer les courants nominaux</button><div id="transformerResult"></div></div>
+<div class="panel"><h4>11. Compensation de l'énergie réactive</h4>
+<div class="row"><div><label>Puissance active P (kW)</label><input id="capP" type="number" placeholder="10"></div><div><label>cos φ initial</label><input id="capC1" type="number" value=".75" step=".01"></div></div>
+<label>cos φ souhaité</label><input id="capC2" type="number" value=".95" step=".01">
+<button onclick="capacitorCalc()">Estimer la batterie de condensateurs</button><div id="capacitorResult"></div></div>
+</section>
+<section id="study" class="view"><div class="section"><h3>⌁ Étude électrique</h3><span>ESTIMATION</span></div><div class="panel"><p class="muted">Pré-dimensionnement indicatif. Le choix des câbles et protections dépend aussi des longueurs, du mode de pose, de la température et des règles applicables.</p><label>Alimentation</label><select id="type"><option>Monophasé 230 V</option><option>Triphasé 400 V</option></select><label>Puissance active W</label><input id="sp" type="number" placeholder="9000"><label>Facteur de puissance cos φ</label><input id="cf" type="number" value=".9" step=".01"><button class="primary" onclick="study()">Estimer le courant</button><div id="sr"></div></div></section>
+<section id="schemes" class="view"><div class="section"><h3>⌗ Schéma de principe</h3><span>MODÈLE</span></div><div class="panel"><pre>ARRIVÉE 230 V
+   │
+[Disjoncteur général]
+   │
+[Interrupteur différentiel]
+   ├── [DJ éclairage] ── Commandes ── Lampes
+   ├── [DJ prises] ──────────────── Prises 2P+T
+   ├── [DJ climatisation] ───────── Climatiseurs
+   └── [DJ cuisine] ─────────────── Appareils dédiés
+PE ─────────────────────────────── Terre
+N  ─────────────────────────────── Neutre</pre><p class="muted">Schéma pédagogique à adapter aux puissances et à l'installation réelle. Vérification professionnelle obligatoire avant travaux.</p></div></section>
+
+<section id="diagrams" class="view">
+<div class="section"><h3>⌗ Schémas & symboles électriques</h3><span>BIBLIOTHÈQUE TECHNIQUE</span></div>
+<div class="panel">
+<h4>Symboles courants — électricité générale et bâtiment</h4>
+<p class="muted">Repères pédagogiques pour lire et préparer des schémas. Les conventions peuvent varier selon les normes et les logiciels.</p>
+<div class="color-legend"><span><i style="background:#f5c542"></i>Éclairage</span><span><i style="background:#2878d0"></i>Prises</span><span><i style="background:#e87524"></i>Commandes</span><span><i style="background:#9b59b6"></i>Distribution</span><span><i style="background:#16a36a"></i>Terre / sécurité</span><span><i style="background:#d94a4a"></i>Composants</span></div>
+<div class="symbol-grid">
+<div class="symbol-card"><svg viewBox="0 0 48 42"><circle cx="24" cy="21" r="13"/><path d="M15 12l18 18M33 12L15 30"/></svg><div><b>Lampe / point lumineux</b><small>Point d’éclairage</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><circle cx="24" cy="21" r="14"/><path d="M18 16v10M30 16v10"/></svg><div><b>Prise 2P+T</b><small>Prise avec terre</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><path d="M8 21h32M18 21l14-11"/></svg><div><b>Interrupteur simple</b><small>Commande d’un éclairage</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><path d="M6 21h36M17 21l14-11M17 21l14 11"/></svg><div><b>Va-et-vient</b><small>Commande depuis deux endroits</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><path d="M7 21h34M24 7v28M18 13l6-6 6 6"/></svg><div><b>Disjoncteur</b><small>Protection électrique</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><rect x="8" y="9" width="32" height="24" rx="3"/><path d="M14 21h20M24 14v14"/></svg><div><b>Tableau électrique</b><small>Ensemble des protections</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><path d="M24 5v13M15 18h18M17 24h14M20 30h8M24 18v18"/></svg><div><b>Terre / PE</b><small>Conducteur de protection</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><path d="M7 21h8M15 21c0-12 18-12 18 0s-18 12-18 0M33 21h8"/></svg><div><b>Bobine</b><small>Inductance / enroulement</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><path d="M7 21h34M18 12v18M30 12v18"/></svg><div><b>Fusible</b><small>Protection par fusion</small></div></div>
+<div class="symbol-card"><svg viewBox="0 0 48 42"><path d="M7 21h10M31 21h10M17 11v20M31 11v20"/></svg><div><b>Condensateur</b><small>Deux armatures</small></div></div>
+</div></div>
+<div class="panel"><h4>Schéma 1 — simple allumage</h4>
+<p class="muted">La phase passe par l’interrupteur. Le neutre rejoint directement le luminaire.</p>
+<div class="diagram"><svg viewBox="0 0 700 155" role="img" aria-label="Simple allumage">
+<g stroke="#17334b" stroke-width="3" fill="none"><path d="M35 42H150M205 42H620M150 42l42-22M35 100H620V42"/><circle cx="620" cy="125" r="13"/><path d="M611 116l18 18M629 116l-18 18"/></g>
+<g fill="#17334b" font-family="Arial" font-size="14"><text x="35" y="25">L — Phase</text><text x="35" y="88">N — Neutre</text><text x="140" y="15">Interrupteur</text><text x="585" y="20">Lampe</text></g>
+<g stroke="#168b9c" stroke-width="3" stroke-dasharray="6 6"><path d="M35 145H620"/></g><text x="38" y="139" fill="#168b9c" font-family="Arial" font-size="12">PE — Terre</text></svg></div></div>
+<div class="panel"><h4>Schéma 2 — va-et-vient</h4>
+<p class="muted">Deux commandes pilotent le même point lumineux. Les navettes relient les deux interrupteurs.</p>
+<div class="diagram"><svg viewBox="0 0 700 175" role="img" aria-label="Va-et-vient">
+<g stroke="#17334b" stroke-width="3" fill="none"><path d="M30 40H135l38-18M135 40V75M173 22H475M173 75H475M475 22l38 18M475 75V40H620M30 115H620V40"/><circle cx="620" cy="140" r="13"/><path d="M611 131l18 18M629 131l-18 18"/></g>
+<g fill="#17334b" font-family="Arial" font-size="14"><text x="30" y="23">Phase L</text><text x="100" y="98">Inter 1</text><text x="445" y="98">Inter 2</text><text x="570" y="20">Lampe</text><text x="30" y="107">Neutre N</text><text x="260" y="15">Navette 1</text><text x="260" y="96">Navette 2</text></g></svg></div></div>
+<div class="panel"><h4>Schéma 3 — circuit de prises en dérivation</h4>
+<p class="muted">Les prises sont raccordées en parallèle : chaque prise reçoit phase, neutre et terre.</p>
+<div class="diagram"><svg viewBox="0 0 700 165" role="img" aria-label="Circuit de prises">
+<g stroke="#17334b" stroke-width="3" fill="none"><rect x="20" y="42" width="95" height="75" rx="5"/><path d="M115 58H660M115 82H660M115 106H660M260 58v48M455 58v48M650 58v48"/><circle cx="260" cy="82" r="17"/><circle cx="455" cy="82" r="17"/><circle cx="650" cy="82" r="17"/><path d="M254 74v16M266 74v16M449 74v16M461 74v16M644 74v16M656 74v16"/></g>
+<g fill="#17334b" font-family="Arial" font-size="13"><text x="26" y="33">Tableau</text><text x="31" y="135">Protection</text><text x="240" y="125">PC 1</text><text x="435" y="125">PC 2</text><text x="630" y="125">PC 3</text><text x="125" y="51">L</text><text x="125" y="77">N</text><text x="125" y="101">PE</text></g></svg></div></div>
+<div class="panel"><h4>Schéma 4 — tableau monophasé simplifié</h4>
+<div class="diagram"><svg viewBox="0 0 700 170" role="img" aria-label="Tableau monophasé simplifié">
+<g stroke="#17334b" stroke-width="2.5" fill="none"><rect x="18" y="20" width="664" height="130" rx="8"/><rect x="40" y="58" width="120" height="60" rx="5"/><rect x="210" y="58" width="130" height="60" rx="5"/><rect x="390" y="58" width="130" height="60" rx="5"/><rect x="570" y="58" width="90" height="60" rx="5"/><path d="M160 88H210M340 88H390M520 88H570"/></g>
+<g fill="#17334b" font-family="Arial" font-size="13" text-anchor="middle"><text x="100" y="45">Arrivée réseau</text><text x="100" y="83">Disjoncteur</text><text x="100" y="101">général</text><text x="275" y="83">Différentiel</text><text x="275" y="101">30 mA*</text><text x="455" y="83">Disjoncteurs</text><text x="455" y="101">divisionnaires</text><text x="615" y="83">Circuits</text><text x="615" y="101">départs</text></g></svg></div>
+<p class="diagram-note">* Valeur indicative de présentation, à confirmer selon la réglementation applicable. Ces dessins sont pédagogiques et ne constituent pas un plan d’exécution. Les sections, calibres, protections, couleurs et modes de pose doivent être calculés et vérifiés sur le projet réel.</p></div>
+<div class="panel"><h4>Autres schémas à développer</h4><p class="muted">Télérupteur, minuterie, sonnette, contacteur et relais thermique, démarrage moteur, circuits spécialisés, tableau triphasé, mise à la terre, photovoltaïque (panneaux, MPPT, batterie et onduleur).</p></div>
+</section>
+
+<section id="stock" class="view"><div class="section"><h3>▧ Stock matériel</h3><span>INVENTAIRE</span></div><div class="panel"><label>Article</label><input id="sn" placeholder="Câble 2,5 mm²"><div class="row"><div><label>Quantité</label><input id="sq" type="number" value="1"></div><div><label>Unité</label><select id="su"><option>mètre</option><option>pièce</option><option>rouleau</option><option>boîte</option></select></div></div><button class="primary" onclick="add('stock')">Ajouter au stock</button></div><div class="panel" id="stockList"></div></section>
+<section id="reports" class="view"><div class="section"><h3>▣ Rapports</h3><span>DOCUMENTS</span></div><div class="panel"><label>Titre</label><input id="rt" placeholder="Rapport d'intervention"><label>Contenu</label><textarea id="rx" placeholder="Travaux réalisés, observations..."></textarea><button class="primary" onclick="add('reports')">Enregistrer</button></div><div class="panel" id="reportList"></div></section>
+<section id="settings" class="view"><div class="section"><h3>⚙ Paramètres & accès</h3><span>ADMINISTRATION</span></div><div class="panel"><h4>Profils d'accès prévus</h4><p class="muted">Administrateur : gestion complète. Utilisateur : consultation seule, sans modification des paramètres.</p><div class="result">Cette version est une maquette locale. Une véritable sécurité multi-utilisateur exige une authentification et des permissions côté serveur ; le simple choix d'un rôle dans cette page ne sécurise pas les données.</div></div><div class="panel"><h4>Sauvegarde</h4><button onclick="exportData()">Exporter les données JSON</button><button onclick="clearData()">Effacer les données locales</button></div></section>
+</main>
+<nav><button class="active" onclick="go('home',this)"><b>⌂</b>Accueil</button><button onclick="go('clients',this)"><b>♙</b>Clients</button><button onclick="go('projects',this)"><b>▦</b>Chantiers</button><button onclick="go('quotes',this)"><b>▤</b>Devis</button><button onclick="go('diagrams',this)"><b>⌗</b>Schémas</button><button onclick="go('settings',this)"><b>⚙</b>Plus</button></nav>
+<script>
+const K='gue_elec_future_v2';let db;try{db=JSON.parse(localStorage.getItem(K)||'{"clients":[],"projects":[],"quotes":[],"stock":[],"reports":[]}')}catch(e){db={clients:[],projects:[],quotes:[],stock:[],reports:[]}}
+const $=id=>document.getElementById(id),v=id=>$(id).value.trim(),fmt=n=>Number(n||0).toLocaleString('fr-FR');
+function save(){localStorage.setItem(K,JSON.stringify(db));render()}function go(id,b){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');window.scrollTo(0,0)}
+function add(type){let x;if(type==='clients'){if(!v('cn'))return alert('Saisir le nom.');x={n:v('cn'),p:v('cp'),a:v('ca')};['cn','cp','ca'].forEach(i=>$(i).value='')}if(type==='projects'){if(!v('pn'))return alert('Saisir le chantier.');x={n:v('pn'),c:v('pc'),s:v('ps'),b:+v('pb')||0};['pn','pc','pb'].forEach(i=>$(i).value='')}if(type==='quotes'){if(!v('qc'))return alert('Saisir le client.');x={c:v('qc'),a:+v('qa')||0,p:+v('qp')||0,o:v('qo')};['qc','qa','qp','qo'].forEach(i=>$(i).value='')}if(type==='stock'){if(!v('sn'))return alert('Saisir l’article.');x={n:v('sn'),q:+v('sq')||1,u:v('su')};$('sn').value=''}if(type==='reports'){if(!v('rt'))return alert('Saisir le titre.');x={t:v('rt'),x:v('rx')};$('rt').value=$('rx').value=''}db[type].push(x);save()}
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function list(id,arr,fn){$(id).innerHTML=arr.length?arr.map(x=>'<div class="item">'+fn(x)+'</div>').join(''):'<div class="empty">Aucune donnée enregistrée.</div>'}
+function render(){$('sC').textContent=db.clients.length;$('sP').textContent=db.projects.length;$('sQ').textContent=db.quotes.length;$('sD').textContent=fmt(db.quotes.reduce((s,x)=>s+Math.max(0,x.a-x.p),0))+' F';
+list('clientList',db.clients,x=>'<strong>'+safe(x.n)+'</strong><small>'+safe(x.p)+' · '+safe(x.a)+'</small>');
+list('projectList',db.projects,x=>'<strong>'+safe(x.n)+'</strong><small>'+safe(x.c)+' · '+safe(x.s)+' · '+fmt(x.b)+' FCFA</small>');
+list('quoteList',db.quotes,x=>'<strong>'+safe(x.c)+' — '+safe(x.o)+'</strong><small>Devis '+fmt(x.a)+' F · Payé '+fmt(x.p)+' F · Reste '+fmt(x.a-x.p)+' F</small>');
+list('stockList',db.stock,x=>'<strong>'+safe(x.n)+'</strong><small>'+x.q+' '+safe(x.u)+'</small>');
+list('reportList',db.reports,x=>'<strong>'+safe(x.t)+'</strong><small>'+safe(x.x)+'</small>')}
+function out(id,t){$(id).innerHTML='<div class="result">'+t+'</div>'}
+function num(id){return Number($(id).value)}
+function ohmCalc(){let u=num('ohmU'),i=num('ohmI'),r=num('ohmR'),p=num('ohmP'),known=[u,i,r,p].filter(x=>x>0).length;if(known<2)return alert('Saisir au moins deux valeurs positives.');if(u>0&&i>0){r=u/i;p=u*i}else if(u>0&&r>0){i=u/r;p=u*i}else if(i>0&&r>0){u=i*r;p=u*i}else if(p>0&&u>0){i=p/u;r=u/i}else if(p>0&&i>0){u=p/i;r=u/i}else if(p>0&&r>0){i=Math.sqrt(p/r);u=i*r}out('ohmResult','U = <b>'+u.toFixed(2)+' V</b> · I = <b>'+i.toFixed(2)+' A</b><br>R = <b>'+r.toFixed(2)+' Ω</b> · P = <b>'+p.toFixed(2)+' W</b>')}
+function monoCalc(){let u=num('mU'),i=num('mI'),c=num('mCos');if(u<=0||i<=0||c<=0||c>1)return alert('Vérifier U, I et cos φ.');let s=u*i,p=num('mP')>0?num('mP'):s*c,q=Math.sqrt(Math.max(0,s*s-p*p));out('monoResult','S = <b>'+(s/1000).toFixed(3)+' kVA</b><br>P = <b>'+(p/1000).toFixed(3)+' kW</b><br>Q ≈ <b>'+(q/1000).toFixed(3)+' kvar</b>')}
+function triCalc(){let u=num('tU'),i=num('tI'),c=num('tCos');if(u<=0||i<=0||c<=0||c>1)return alert('Vérifier U, I et cos φ.');let s=Math.sqrt(3)*u*i,p=s*c,q=s*Math.sqrt(1-c*c);out('triResult','S = <b>'+(s/1000).toFixed(3)+' kVA</b><br>P = <b>'+(p/1000).toFixed(3)+' kW</b><br>Q = <b>'+(q/1000).toFixed(3)+' kvar</b>')}
+function energyFullCalc(){let p=num('eP'),h=num('eH'),d=num('eD'),price=num('ePrice');if(p<=0||h<0||d<=0)return alert('Vérifier puissance, durée et jours.');let k=p*h*d/1000,cost=price>0?k*price:null;out('energyFullResult','Consommation : <b>'+k.toFixed(2)+' kWh</b><br>Énergie quotidienne : '+(p*h/1000).toFixed(2)+' kWh'+(cost!==null?'<br>Coût estimé : <b>'+fmt(cost)+' FCFA</b>':''))}
+function resistorCalc(mode){let a=num('r1'),b=num('r2');if(a<=0||b<=0)return alert('Entrer deux résistances positives.');let r=mode==='series'?a+b:(a*b)/(a+b);out('resistorResult','Résistance équivalente : <b>'+r.toFixed(3)+' Ω</b> · '+(mode==='series'?'R = R1 + R2':'R = (R1 × R2)/(R1 + R2)'))}
+function cableCalc(){let i=num('cI'),l=num('cL'),s=num('cS'),u=num('cU'),rho=num('cMat'),type=num('cType');if(i<=0||l<=0||s<=0||u<=0)return alert('Entrer des valeurs positives.');let drop=type===1?2*rho*l*i/s:Math.sqrt(3)*rho*l*i*.9/s,percent=drop/u*100,needed=type===1?2*rho*l*i/(u*.03):Math.sqrt(3)*rho*l*i*.9/(u*.03);out('cableResult','Chute de tension estimée : <b>'+drop.toFixed(2)+' V ('+percent.toFixed(2)+' %)</b><br>Section théorique indicative pour 3 % : <b>'+needed.toFixed(2)+' mm²</b><br><small>La section normalisée supérieure et l’ampacité doivent être vérifiées séparément.</small>')}
+function pvCalc(){let ns=num('pvSeries'),np=num('pvParallel'),v=num('pvV'),a=num('pvA');if(ns<=0||np<=0||v<=0||a<=0)return alert('Entrer des valeurs positives.');let vt=ns*v,at=np*a;out('pvResult','Tension Vmp du champ : <b>'+vt.toFixed(2)+' V</b><br>Courant Imp du champ : <b>'+at.toFixed(2)+' A</b><br>Puissance approximative : <b>'+(vt*at).toFixed(0)+' W</b><br><small>Vérifier Voc à froid, Isc, limites MPPT et courant maximal de l’onduleur.</small>')}
+function batteryCalc(){let v=num('bV'),ah=num('bAh'),dod=num('bDod')/100,eff=num('bEff')/100,load=num('bLoad');if(v<=0||ah<=0||dod<=0||dod>1||eff<=0||eff>1||load<=0)return alert('Vérifier les données de batterie et de charge.');let wh=v*ah,usable=wh*dod*eff,aut=usable/load;out('batteryResult','Énergie nominale : <b>'+wh.toFixed(0)+' Wh</b><br>Énergie utile estimée : <b>'+usable.toFixed(0)+' Wh</b><br>Autonomie théorique : <b>'+aut.toFixed(2)+' h</b><br><small>À corriger selon température, vieillissement, courant de décharge et rendement réel.</small>')}
+function inverterCalc(){let load=num('invLoad'),m=num('invMargin');if(load<=0||m<0)return alert('Vérifier les valeurs.');out('inverterResult','Puissance minimale indicative : <b>'+(load*(1+m/100)).toFixed(0)+' W</b><br><small>Vérifier les appels de courant au démarrage, la puissance continue et la puissance de crête.</small>')}
+function transformerCalc(){let va=num('trVA'),u1=num('trU1'),u2=num('trU2');if(va<=0||u1<=0||u2<=0)return alert('Vérifier les valeurs.');out('transformerResult','Courant primaire nominal : <b>'+(va/u1).toFixed(2)+' A</b><br>Courant secondaire nominal : <b>'+(va/u2).toFixed(2)+' A</b><br>Rapport de tension U1/U2 : '+(u1/u2).toFixed(2))}
+function capacitorCalc(){let p=num('capP'),c1=num('capC1'),c2=num('capC2');if(p<=0||c1<=0||c1>1||c2<=0||c2>1||c2<=c1)return alert('Le cos φ cible doit être supérieur au cos φ initial et inférieur ou égal à 1.');let q=p*(Math.tan(Math.acos(c1))-Math.tan(Math.acos(c2)));out('capacitorResult','Puissance réactive de compensation estimée : <b>'+q.toFixed(2)+' kvar</b><br><small>Faire vérifier l’étude, les harmoniques, les risques de résonance et le choix des gradins avant installation.</small>')}
+function study(){let p=+$('sp').value,c=+$('cf').value,tri=$('type').value.includes('Triphasé');if(p<=0||c<=0||c>1)return alert('Vérifier les valeurs.');let i=tri?p/(Math.sqrt(3)*400*c):p/(230*c);out('sr','Courant estimé : <b>'+i.toFixed(2)+' A</b><br><small>Résultat indicatif ; ne suffit pas à choisir câble et protection.</small>')}
+function exportData(){let a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.href=u;a.download='Gue_Elec_Pro_sauvegarde.json';a.click();URL.revokeObjectURL(u)}
+function clearData(){if(confirm('Effacer toutes les données locales ?')){db={clients:[],projects:[],quotes:[],stock:[],reports:[]};save()}}
+render();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function (err) {
+      console.warn('Service worker non enregistré :', err);
+    });
+  });
+}
+</script>
+
+</body></html>
